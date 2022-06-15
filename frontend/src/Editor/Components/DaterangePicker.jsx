@@ -17,21 +17,23 @@ export const DaterangePicker = function DaterangePicker({
   const { borderRadius, visibility, disabledState } = styles;
   const { defaultStartDate, defaultEndDate } = properties;
   const formatProp = properties.format;
-  // eslint-disable-next-line no-unused-vars
-  const startDateProp = isEmpty(exposedVariables.startDate)
-    ? moment(defaultStartDate, formatProp)
-    : exposedVariables.startDate;
-  const endDateProp = isEmpty(exposedVariables.endDate) ? moment(defaultEndDate, formatProp) : exposedVariables.endDate;
 
   const [focusedInput, setFocusedInput] = useState(null);
   const [startDate, setStartDate] = useState(moment(defaultStartDate, formatProp));
-  const [endDate, setEndDate] = useState(endDateProp);
+  const [endDate, setEndDate] = useState(moment(defaultEndDate, formatProp));
 
   const dateRangeRef = useRef(null);
 
   useEffect(() => {
-    setStartDate(moment(defaultStartDate, formatProp));
-    setEndDate(moment(defaultEndDate, formatProp));
+    const startDateProp = isEmpty(exposedVariables.startDate)
+      ? moment(defaultStartDate, formatProp)
+      : moment(exposedVariables.startDate, formatProp);
+    const endDateProp = isEmpty(exposedVariables.endDate)
+      ? moment(defaultEndDate, formatProp)
+      : moment(exposedVariables.endDate, formatProp);
+    setStartDate(startDateProp);
+    setEndDate(endDateProp);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [defaultEndDate, defaultStartDate, formatProp]);
 
   useEffect(() => {
